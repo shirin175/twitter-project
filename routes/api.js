@@ -60,9 +60,10 @@ router.get('/tweets/:username', function(req, res, next) {
         } else {
             let usedWords = sanitize.sanitizeFullText(tweets);
             let usedLanguage = sanitize.getLanguage(tweets);
+            console.log(usedLanguage);
             let sentimentAnalysis = {};
             //if no tweets exist
-            if(usedWords.length !==0 && usedLanguage ==='de'|| usedLanguage ==='en') {
+            if(usedWords.length !==0 && usedLanguage !=='other') {
                 sentimentAnalysis = sanitize.sentiment(usedWords,usedLanguage);
             }
             //console.log(sentimentAnalysis);
