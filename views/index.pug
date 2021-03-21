@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    div(class='index__submit-form')
+        nav(class="navbar navbar-light d-flex flex-column")
+            h1#title=title
+            p Enter a twitter handle and get insights about the account like most interacted users or a sentiment analysis of tweets.
+            form(action="/submit" method="POST" class="form-inline ")
+                div(class="input-group")
+                    div(class="input-group-prepend")
+                        span(class="input-group-text") @
+                    input(type="text" maxlength="15" name="username" required class="form-control" placeholder="Username" aria-label="Username")
+                    button(type="submit" class="button " ) Submit

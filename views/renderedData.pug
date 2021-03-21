@@ -1,0 +1,81 @@
+extends layout
+
+block content
+        div(class='my-container')
+            div(class='row')
+                div(class='col-8')
+                    a(href="/" class="hyperlinks")
+                        h1 Twitter Dashboard
+        div(class='statistics__user-info')
+            div(class='my-container')
+                p=output
+                div(class="row")
+                    div(class="col")
+                        img(src='' alt='profile picture')#profile-picture
+                div(class="row")
+                    div(class="col-3")
+                        p Follower
+                    div(class="col-3")
+                        p Following
+                    div(class="col-3")
+                        p Favorites
+                    div(class="col-3")
+                        p Statuses
+                div(class="row")
+                    div(class="col-3")
+                        p#follower
+                    div(class="col-3")
+                        p#following
+                    div(class="col-3")
+                        p#favorites
+                    div(class="col-3")
+                        p#statuses
+        p#error
+        div(class='my-container statistics__graph')
+            div(class="statistics__canvas-wrapper")
+                i(class="fa fa-question-circle-o statistics__help-button")
+                div(class="statistics__collapsible--content")
+                    p This graph's numbers are based on the last 200 tweets of the user. Included are replies to other users and tweets. Excluded are retweets. It shows the amount of activity on each weekday.
+                canvas#myChart
+            div(class="statistics__canvas-wrapper")
+                i(class="fa fa-question-circle-o statistics__help-button")
+                div(class="statistics__collapsible--content")
+                    p This graph's numbers are based on the last 200 tweets of the user. Through sentiment analysis of tweets and replies to other users the overall sentiment is calculated. The overall score is the sum of all weighted words. The comparative score is the average. The graph shows the sum of all identified negative and positive words found in tweets. This graph is currently only available for the German and English language. For more information on the calculation visit https://www.npmjs.com/package/sentiment. The German Lexicon was provided by https://sites.google.com/site/iggsahome/downloads.
+                canvas#myChart4
+                p#score
+                p#comparative
+            div(class="statistics__canvas-wrapper")
+                i(class="fa fa-question-circle-o statistics__help-button")
+                div(class="statistics__collapsible--content")
+                    p This graph's numbers are based on the last 200 tweets of the user. Tweets and replies are considered, not retweets. It shows the 10 most interacted with users. Interaction means mentioning a user with their twitter handle.
+                canvas#myChart3
+            div(class="statistics__canvas-wrapper")
+                i(class="fa fa-question-circle-o statistics__help-button")
+                div(class="statistics__collapsible--content")
+                    p This graph's numbers are based on the last 200 tweets of the user. It shows which devices are used for posting tweets. Included are tweets and replies to other users. Retweets are excluded.
+                canvas#myChart2
+        script
+            include ../node_modules/chart.js/dist/Chart.js
+            include ../node_modules/axios/dist/axios.js
+            include ../public/javascripts/asyncCalls.js
+        script.
+            let name = '!{output}';
+            getUserInfo(name);
+            getTweetsPerWeekday(name);
+            getAllInteractions(name);
+            getUsedDevices(name)
+            sentimentAnalysis(name);
+            var coll = document.getElementsByClassName("statistics__help-button");
+            var i;
+
+            for (i = 0; i < coll.length; i++) {
+                coll[i].addEventListener("click", function () {
+                    this.classList.toggle("active");
+                    var content = this.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            }
