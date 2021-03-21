@@ -132,13 +132,14 @@ exports.getLanguage = function (tweets) {
             other +=1;
         }
     }
-    if(ger >eng >other) {
+    if(ger > eng && ger >other) {
         return 'de';
     }
-    else if(eng>ger>other) {
+    else if(eng>ger&&eng>other) {
         return 'en';
     }
     else {
         return 'other';
     }
 };
+
